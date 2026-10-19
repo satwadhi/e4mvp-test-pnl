@@ -1,0 +1,41 @@
+{
+  "summary": "First-run E2E of Factory P&L panel (Phase 1). Ran 31 pytest backend tests (all passed) covering auth, 401 on data routes, categories config, validation, CRUD on sales/returns/purchases/consumption/labour/finished-goods/rent, P&L math (JRN-9/11/12/16 isolated in 2025-01: sales 125, returns 25, Resin X avg 150, Unknown Alloy 0 + warning, labour 30, FG cpu 2.5 no COGS, daily rent spreading 310/31d*10d=100, start>end 400, empty range zeros, 3-month total = sum). Reconciled seeded month totals (gross=net_rev-cogs, operating=gross-opex, net=operating-other). Playwright: login/logout, no signup form on /signup, /reports logged-out redirects to /login, wrong password shows 'Invalid email or password', dashboard loads 5 KPI cards + 12-month trend, sales CRUD via UI, 4 validation errors on empty submit, reports date-error for start>end, empty state for 2024, sidebar-toggle appears at 1024px, Settings clear sample data confirmed (376->0, user record preserved, dashboard reflected only user record), UI delete record works.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Console", "issues": [
+        "Recharts 'width(-1) and height(-1)' warnings on dashboard and reports before ResponsiveContainer measures parent — cosmetic but spammy.",
+        "React 'spread with key' warnings for KpiCard — appear to come from a dev-time code-tagger (x-source-* attrs); should not ship to prod but is noisy in dev."
+      ]}
+    ],
+    "testid_divergences": [
+      {"spec_expected": "kpi-total-revenue(-value), kpi-total-cogs, kpi-total-operating-expenses", "actual": "kpi-net-revenue-value, kpi-cogs-value, kpi-opex-value", "note": "Review-request test IDs mention 'total-' prefix; implementation uses the shorter names. Functionality identical. Decide which naming is the source of truth."}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_backend.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Optional: suppress Recharts width/height warnings by giving the chart container an explicit min-height or guarding render until mounted.",
+    "Optional: strip the dev code-tagger attrs so React stops warning about key-in-spread for KpiCard.",
+    "Decide whether to align dashboard KPI data-testids with the spec names (kpi-total-revenue etc.) or update the spec."
+  ],
+  "critical_code_review_comments": [
+    "server.py is clean (<220 lines), proper 401 via Depends(get_current_user) on all data routes, 422 shape matches spec, Mongo ObjectId never leaked (Record.from_mongo maps _id -> id).",
+    "engine.CostLookup uses bisect_right on ISO date strings — correct because strings sort lexicographically; weighted avg accumulators are Decimal — good.",
+    "spread_month uses cumulative rounding so day shares sum exactly to the monthly amount — verified empirically (310/31*10 = 100.000 in daily report).",
+    "CORS allow_origins reads from env but CORS_ORIGINS='*' with allow_credentials=False is fine for this JWT bearer app.",
+    "No signup route exists in server.py; frontend App.js catch-all redirects unknown routes to '/'. Combined with ProtectedRoute this satisfies JRN-2."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (31/31)", "frontend": "100% (all journeys covered)"},
+  "test_credentials": "admin@factory.om / Admin@12345 (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "None manually seeded. Backend seeds on startup (376 sample records). Destructive clear-sample-data was executed as the last step so sample data is now 0 and will NOT reseed (meta flag). Any records created during tests were cleaned up (pytest teardown + UI delete).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Sample data has been cleared and will not reseed automatically. If next iteration needs seed data, either drop the meta flag ({\"key\":\"sample_seeded\"} in db.meta) or reseed manually. Backend test file /app/backend/tests/test_backend.py is reusable; it creates/removes its own records in 2025-01 (no overlap with any seeded month). Admin credentials unchanged.",
+  "rca of the issue": "No functional defects found. Only cosmetic console warnings (Recharts sizing, dev code-tagger spread-with-key) and a naming divergence between review-request-stated KPI test IDs ('kpi-total-*') and implemented ones ('kpi-net-revenue-value' etc.)."
+}

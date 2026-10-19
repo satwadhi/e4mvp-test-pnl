@@ -1,0 +1,29 @@
+{
+  "passed": 7,
+  "failed": 0,
+  "blocked": 8,
+  "bugs": [],
+  "action_items": [
+    {"type": "environment_blocked", "severity": "high", "detail": "Browser lane is blocked. Playwright needs /pw-browsers/chromium_headless_shell-1246 (screenshot_tool needs -1243), but only chromium_headless_shell-1208 is installed. The rules forbid installing browsers. Because of this, none of the 8 UI criteria could be checked in a browser: login page, no signup UI, redirect, dashboard cards/OMR format/chart, category forms and their inline 'Required' messages, report table/charts, 'No data for this period' message, date error message, Settings clear dialog. The check 'auth-login-and-guard' is saved and can be re-run by name once the browser is fixed."},
+    {"type": "destructive_state", "severity": "medium", "detail": "test_tscheck_zz_clear_sample.py ran Clear sample data, as the briefing allowed. All 376 sample records are gone. Only user record left: one tscheck-own sale (2 x 5 = 10.000, 2026-10-15). Dashboard now shows net revenue 10.000. Re-running test_tscheck_profit_formulas.py on the empty DB still passes but proves little. Re-seed before UI retests."},
+    {"type": "note", "severity": "low", "detail": "Hand-calc check for Jun and Jul 2026 matched exactly before the clear. No 'Reload sample data' text was found in the frontend source. The UI side of this could not be checked."}
+  ],
+  "retest_needed": true,
+  "checks": [
+    {"criterion": "JRN-1,2,3,21 auth", "name": "test_tscheck_auth.py", "lane": "backend", "status": "passed", "evidence": "POST /auth/login correct -> 200; wrong -> 401 'Invalid email or password'; signup/register -> 404/405; GET records/dashboard/reports/settings/categories with no token -> 401"},
+    {"criterion": "JRN-4 dashboard", "name": "test_tscheck_dashboard.py", "lane": "backend", "status": "passed", "evidence": "GET /dashboard month=2026-10, 5 card keys, trend has 12 entries ending 2026-10"},
+    {"criterion": "JRN-5,6,7,14 CRUD/validation", "name": "test_tscheck_crud.py", "lane": "backend", "status": "passed", "evidence": "sale 10x12.5 total 125.0, revenue +125.000; PUT qty 20 -> +250.000; DELETE -> back to 0. Empty -> 'Required'; qty 0 / price -1 -> 'Must be greater than 0'. 18 categories; Utilities options [Electricity, Water, Gas]"},
+    {"criterion": "JRN-8..12 revenue/COGS rules", "name": "test_tscheck_cogs_rules.py", "lane": "backend", "status": "passed", "evidence": "return 25 -> net revenue -25.000; purchases change COGS by 0; lowercase consumption of 50 -> value 150.0; never-purchased material -> 0.0 with 'No purchase cost found'; labour 8x1.25 + machine 20 -> COGS +30.000; finished goods change COGS by 0, cost per unit 2.5"},
+    {"criterion": "JRN-13,22 profit formulas", "name": "test_tscheck_profit_formulas.py", "lane": "backend", "status": "passed", "evidence": "Jun and Jul 2026 hand totals from /records match /reports/pnl net_revenue, gross, operating and net profit with 0.000 difference (run before clear)"},
+    {"criterion": "JRN-15..19 reports/daily/empty/invalid", "name": "test_tscheck_reports.py", "lane": "backend", "status": "passed", "evidence": "May-Jul monthly: 3 rows, totals = sum of rows; rent 310 in a 31-day month over a 10-day daily range -> opex +100.000; empty range has_data=false with 0; start after end -> 400 'Start date must be before end date'"},
+    {"criterion": "JRN-20 clear sample data", "name": "test_tscheck_zz_clear_sample.py", "lane": "backend", "status": "passed", "evidence": "POST /settings/clear-sample-data 200; sample_records=0; own record kept; no is_sample rows in any of the 18 categories; dashboard net_revenue=10.0"},
+    {"criterion": "JRN-1,2,3,21 auth UI", "name": "auth-login-and-guard", "lane": "browser", "status": "blocked", "evidence": "browserType.launch: Executable doesn't exist at /pw-browsers/chromium_headless_shell-1246"},
+    {"criterion": "JRN-4 dashboard UI", "name": "dashboard-cards-and-trend", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-5,6,7,14 CRUD UI", "name": "category-crud-validation", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-8..12 rules UI", "name": "cogs-rules-ui", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-13,22 reports formulas UI", "name": "reports-profit-ui", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-15,16,17 table/daily/charts UI", "name": "reports-table-charts", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-18,19 empty/invalid range UI", "name": "reports-empty-invalid", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"},
+    {"criterion": "JRN-20 clear sample UI", "name": "settings-clear-sample", "lane": "browser", "status": "blocked", "evidence": "no Chromium binary"}
+  ]
+}

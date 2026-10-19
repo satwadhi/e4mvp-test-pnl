@@ -1,0 +1,15 @@
+{
+  "iteration": 3,
+  "mode": "retest",
+  "passed": 2,
+  "failed": 0,
+  "bugs": [],
+  "action_items": [
+    {"type": "note", "severity": "low", "detail": "The dashboard-cards-and-trend check confirms the Net Profit card turns red when the value is negative. It does not check the computed colour of the positive Gross Profit card. Green for positive profit is confirmed in Reports (rgb(5,150,105))."}
+  ],
+  "retest_needed": false,
+  "checks": [
+    {"criterion": "JRN-4: Dashboard loss/profit colours", "name": "dashboard-cards-and-trend", "lane": "browser", "status": "passed", "evidence": "Re-ran the saved check. All 5 cards show: Revenue OMR 8,746.782, COGS OMR 6,252.057, OpEx OMR 8,226.725, Gross OMR 2,494.725, Net -OMR 6,926.364. The negative Net Profit card is rgb(225,29,72) (red). The trend chart SVG is visible. This was failing in iteration 2 and is now fixed."},
+    {"criterion": "JRN-15: Reports profit colours (read-only)", "name": "reports-profit-colours", "lane": "browser", "status": "passed", "evidence": "Monthly view, May to Oct 2026. Negative cells (Jul op -5,245.705 / net -6,486.299, Oct op -5,732.000 / net -6,926.364) are rgb(225,29,72) red. All positive gross, operating and net profit cells, including Total, are rgb(5,150,105) green. Revenue and COGS cells are neutral rgb(51,65,85). Read-only: no records changed."}
+  ]
+}

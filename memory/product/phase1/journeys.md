@@ -1,0 +1,26 @@
+# Phase 1 Journeys
+
+- **JRN-1** steps: open the app logged out, enter the admin email and password, sign in. expected: Dashboard opens. The Login page has no "Sign up" link, and /signup or /register shows no signup form.
+- **JRN-2** steps: sign in with a wrong password. expected: "Invalid email or password" is shown and you stay on Login.
+- **JRN-3** steps: while logged out, open /reports directly. Call /api for any data without a token. expected: you are redirected to Login. The API returns 401.
+- **JRN-4** steps: on the Dashboard with sample data loaded. expected: 5 cards (Total Revenue, Total COGS, Total Operating Expenses, Gross Profit, Net Profit) for the current month, each formatted "OMR x,xxx.xxx". A 12-month trend chart is drawn.
+- **JRN-5** steps: open Sales, add customer "Al Noor Trading", product "Steel Pipe", qty 10, unit price 12.5, today's date. Save. expected: the row appears at the top with total OMR 125.000. Dashboard Total Revenue for this month goes up by exactly 125.000.
+- **JRN-6** steps: open each of the 18 category pages. expected: every page has exactly the fields in overview F-2..F-5. Utilities type offers Electricity, Water and Gas.
+- **JRN-7** steps: try to save a Sales record with an empty customer, then one with qty 0, then one with unit price −5. expected: "Required" and "Must be greater than 0" messages. Nothing is saved.
+- **JRN-8** steps: add a Sales return of 25 dated today. expected: this month's Net Revenue goes down by 25.000.
+- **JRN-9** steps: add raw material purchases of material "Resin X": 100 @ 2.000 on day 1 and 100 @ 4.000 on day 2. Then add consumption of 50 "resin x" on day 3. expected: the consumption is valued at OMR 150.000 (average 3.000), and COGS for the range goes up by 150.000. The purchases on their own did not change COGS.
+- **JRN-10** steps: add consumption of 5 of a material "Unknown Alloy" that has never been purchased. expected: valued at OMR 0.000 with "No purchase cost found".
+- **JRN-11** steps: add direct labour of 8 hours × 1.250, and a machine running cost of 20. expected: COGS goes up by exactly 30.000 (10.000 + 20.000).
+- **JRN-12** steps: add a finished goods record: product "Steel Pipe", qty 200, total production cost 500. expected: COGS does not change. Cost per unit for Steel Pipe in a range covering only that record shows OMR 2.500.
+- **JRN-13** steps: add one record in each Operating Expense category and each Other category for this month. expected: Operating Profit = Gross Profit − Operating Expenses, and Net Profit = Operating Profit − Other, to the baisa on the Dashboard and in Reports.
+- **JRN-14** steps: edit the JRN-5 sale to qty 20, then delete it. expected: revenue goes up by another 125.000 after the edit and drops by 250.000 after the delete.
+- **JRN-15** steps: on Reports, choose a 3-month range in Monthly view. expected: the P&L table has 3 month rows plus a Total row, with Net Revenue, COGS, Gross Profit, Operating Expenses, Operating Profit, Other and Net Profit columns. The totals equal the sum of the rows.
+- **JRN-16** steps: add rent of 310 for a 31-day month, then view that month in Daily view. expected: each day carries OMR 10.000 rent, and the 31 days add up to 310.000. A range of 10 days of that month shows 100.000 rent.
+- **JRN-17** steps: on Reports, look at the charts. expected: an expense breakdown bar chart by category and a revenue vs cost line chart over the range, both matching the table totals.
+- **JRN-18** steps: pick a range with no records (for example, years ago). expected: all figures are OMR 0.000, "No data for this period" is shown, and there is no error.
+- **JRN-19** steps: set a start date after the end date. expected: "Start date must be before end date" and the report does not run.
+- **JRN-20** steps: add one record yourself, then go to Settings → Clear sample data → confirm. expected: every sample record is gone across all categories, your own record remains, and the Dashboard reflects only your record.
+- **JRN-21** steps: add 3 records, log out, log in, reload. expected: all 3 records are still there.
+- **JRN-22** steps: compare a hand calculation of Gross, Operating and Net Profit for two seeded months (from the API records) with the Reports figures. expected: zero difference to the baisa.
+- **JRN-23** steps: open the Dashboard on day D of the current month (31-day October). expected: the label reads "Month to date: 1–D Oct 2026". The October salaries, rent, utilities, depreciation, interest and tax count as (sum of their per-day shares for days 1..D), not the full month. The cards equal Reports for the range 1 Oct to today (Daily view total) to the baisa. The October point on the 12-month trend shows the same month-to-date figures. (interpreted)
+- **JRN-24** steps: add a sale dated later this month (after today). expected: Dashboard revenue does not change. Reports for the full month include it. (interpreted)

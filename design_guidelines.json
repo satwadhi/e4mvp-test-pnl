@@ -1,0 +1,214 @@
+{
+  "project_title": "Factory Profit & Loss Panel - Oman Manufacturing",
+  "app_type": "dashboard",
+  "context_type": "Finance Admin Panel",
+  "archetype": "Swiss & High-Contrast Precision",
+  "theme": "light",
+  "file_type": "javascript",
+  "formatting_rules": {
+    "currency_format": "OMR 1,234.567",
+    "currency_symbol": "OMR",
+    "decimals": 3,
+    "negative_loss_format": "-OMR 1,234.567",
+    "negative_color_class": "text-rose-600 bg-rose-50 border-rose-200",
+    "positive_profit_format": "OMR 1,234.567",
+    "positive_color_class": "text-emerald-600 bg-emerald-50 border-emerald-200",
+    "date_format": "DD MMM YYYY",
+    "date_example": "15 OCT 2026"
+  },
+  "typography": {
+    "font_family_heading": "Outfit, sans-serif",
+    "font_family_body": "Plus Jakarta Sans, sans-serif",
+    "font_family_mono": "JetBrains Mono, monospace",
+    "google_fonts_url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+    "font_rules": {
+      "headings": "Use Outfit with tracking-tight and font-semibold or font-bold. DO NOT use Inter for main headings.",
+      "numbers_and_tables": "Use font-mono (JetBrains Mono) or tabular-nums class for clear vertical alignment of financial amounts.",
+      "body": "Use Plus Jakarta Sans for UI controls, body text, form labels, and standard text."
+    },
+    "scale": {
+      "h1_hero": "text-3xl font-bold tracking-tight text-slate-900",
+      "h2_section": "text-xl font-semibold tracking-tight text-slate-800",
+      "h3_card_title": "text-sm font-semibold uppercase tracking-wider text-slate-500",
+      "kpi_value": "text-2xl font-bold font-mono tracking-tight text-slate-900",
+      "body": "text-sm text-slate-600 leading-normal",
+      "table_header": "text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-50",
+      "table_cell": "text-sm font-medium text-slate-700 font-mono"
+    }
+  },
+  "colors": {
+    "primary_bg": "#F8FAFC",
+    "surface_white": "#FFFFFF",
+    "border_subtle": "#E2E8F0",
+    "border_focus": "#2563EB",
+    "text_primary": "#0F172A",
+    "text_secondary": "#475569",
+    "text_muted": "#94A3B8",
+    "accent_brand": {
+      "primary": "#1E3A8A",
+      "primary_hover": "#1E40AF",
+      "primary_light": "#EFF6FF",
+      "badge_bg": "#DBEAFE",
+      "badge_text": "#1E40AF"
+    },
+    "financial_states": {
+      "profit": {
+        "text": "#059669",
+        "bg": "#ECFDF5",
+        "border": "#A7F3D0",
+        "badge": "bg-emerald-100 text-emerald-800 border-emerald-200"
+      },
+      "loss": {
+        "text": "#DC2626",
+        "bg": "#FEF2F2",
+        "border": "#FECACA",
+        "badge": "bg-rose-100 text-rose-800 border-rose-200"
+      },
+      "warning": {
+        "text": "#D97706",
+        "bg": "#FFFBEB",
+        "border": "#FDE68A",
+        "badge": "bg-amber-100 text-amber-800 border-amber-200"
+      },
+      "neutral": {
+        "text": "#475569",
+        "bg": "#F1F5F9",
+        "border": "#E2E8F0"
+      }
+    },
+    "group_colors": {
+      "revenue": "#0284C7",
+      "cogs": "#E11D48",
+      "operating_expenses": "#D97706",
+      "other": "#7C3AED"
+    }
+  },
+  "layout_architecture": {
+    "viewport": "Desktop first, 1280px minimum target, responsive down to 1024px.",
+    "sidebar": {
+      "width": "260px",
+      "style": "bg-slate-900 text-slate-300 border-r border-slate-800 flex flex-col h-screen fixed left-0 top-0 z-40 overflow-y-auto",
+      "brand_header": "px-6 py-5 border-b border-slate-800 flex items-center justify-between font-semibold text-white tracking-wide text-lg",
+      "nav_group": "px-3 py-3 space-y-1",
+      "nav_group_title": "px-3 text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 mt-4",
+      "nav_item_active": "bg-blue-600 text-white font-medium rounded-lg px-3 py-2 text-sm flex items-center gap-3 transition-colors shadow-sm",
+      "nav_item_inactive": "text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg px-3 py-2 text-sm flex items-center gap-3 transition-colors"
+    },
+    "topbar": {
+      "style": "h-16 bg-white border-b border-slate-200 pl-72 pr-8 flex items-center justify-between sticky top-0 z-30 shadow-xs",
+      "elements": ["Breadcrumb / Section Indicator", "Current Month Quick Selector", "Admin Profile Pill & Logout Button"]
+    },
+    "main_content": {
+      "style": "pl-72 pr-8 py-8 bg-slate-50 min-h-screen",
+      "container": "max-w-7xl mx-auto space-y-8"
+    }
+  },
+  "data_categories": [
+    {
+      "group": "Revenue",
+      "categories": [
+        {"slug": "sales", "label": "Sales"},
+        {"slug": "sales-returns", "label": "Sales Returns"},
+        {"slug": "other-income", "label": "Other Income"}
+      ]
+    },
+    {
+      "group": "COGS",
+      "categories": [
+        {"slug": "raw-material-purchases", "label": "Raw Material Purchases"},
+        {"slug": "raw-material-consumption", "label": "Raw Material Consumption"},
+        {"slug": "direct-labour", "label": "Direct Labour"},
+        {"slug": "machine-running-cost", "label": "Machine Running Cost"},
+        {"slug": "finished-goods-produced", "label": "Finished Goods Produced"}
+      ]
+    },
+    {
+      "group": "Operating Expenses",
+      "categories": [
+        {"slug": "salaries", "label": "Salaries"},
+        {"slug": "utilities", "label": "Utilities"},
+        {"slug": "rent", "label": "Rent"},
+        {"slug": "maintenance-repairs", "label": "Maintenance & Repairs"},
+        {"slug": "transportation-logistics", "label": "Transportation & Logistics"},
+        {"slug": "marketing-sales", "label": "Marketing & Sales"},
+        {"slug": "admin-office", "label": "Admin & Office"}
+      ]
+    },
+    {
+      "group": "Other",
+      "categories": [
+        {"slug": "depreciation", "label": "Depreciation"},
+        {"slug": "loan-interest", "label": "Loan Interest"},
+        {"slug": "tax-provision", "label": "Tax Provision"}
+      ]
+    }
+  ],
+  "component_guidelines": {
+    "kpi_cards": {
+      "structure": "Grid of 5 cards (col-span-1 on 5-col grid or 3+2 layout). Clean white card, 1px border border-slate-200, rounded-xl p-5 shadow-xs transition-hover hover:border-slate-300.",
+      "kpis": [
+        {"key": "total_revenue", "label": "Total Revenue", "accent": "blue"},
+        {"key": "total_cogs", "label": "Total COGS", "accent": "rose"},
+        {"key": "total_opex", "label": "Total Operating Expenses", "accent": "amber"},
+        {"key": "gross_profit", "label": "Gross Profit", "dynamic_color": true},
+        {"key": "net_profit", "label": "Net Profit", "dynamic_color": true}
+      ]
+    },
+    "charts": {
+      "trend_chart": "Recharts Area/Line chart for 12-month historical performance with 3 distinct series: Revenue (#0284C7), Total Costs (#E11D48), Net Profit (#059669). Rounded tooltip card with backdrop-blur and full OMR 3-decimal precision.",
+      "expense_chart": "Recharts Bar chart horizontal breakdown of Operating Expenses with hover highlighters.",
+      "revenue_vs_cost": "Recharts Dual Line/Area chart comparing total cash inflow vs outflow."
+    },
+    "data_entry_table": {
+      "container": "White card background, rounded-xl border border-slate-200 overflow-hidden shadow-xs",
+      "header_toolbar": "p-4 bg-white border-b border-slate-200 flex items-center justify-between",
+      "table_style": "w-full text-left border-collapse",
+      "row_style": "border-b border-slate-100 hover:bg-slate-50/80 transition-colors",
+      "summary_banner": "bg-slate-900 text-white p-4 rounded-lg flex items-center justify-between font-mono font-medium text-sm mt-4"
+    },
+    "modals_and_forms": {
+      "dialog_style": "Shadcn Dialog with max-w-lg bg-white p-6 rounded-xl border border-slate-200 shadow-xl",
+      "input_style": "h-10 bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all font-mono",
+      "date_picker": "Shadcn Popover with Calendar component or structured input, formatted to DD MMM YYYY."
+    },
+    "reports_view": {
+      "filters": "Date range picker (Start Date, End Date) + Daily/Monthly toggle switch. Instant validation error if Start Date > End Date.",
+      "summary_p_and_l_table": "Hierarchical financial statement view with collapsible/indented category rows and bold Total / Net Profit bottom calculation row.",
+      "cost_per_unit_table": "Calculates (Raw Material Consumption + Direct Labour + Machine Running Cost) / Finished Goods Produced Units = Cost Per Unit (OMR)."
+    },
+    "settings_view": {
+      "destructive_section": "Border-rose-200 bg-rose-50/50 p-6 rounded-xl space-y-4",
+      "dialog_confirm": "Shadcn AlertDialog requiring typing 'CONFIRM' before execution of clear sample data action."
+    }
+  },
+  "testing_attributes": {
+    "rule": "Mandatory data-testid on every interactive button, input, tab, metric card, modal trigger, table row, and chart container.",
+    "examples": [
+      "data-testid=\"login-email-input\"",
+      "data-testid=\"login-submit-button\"",
+      "data-testid=\"nav-dashboard-link\"",
+      "data-testid=\"nav-category-sales\"",
+      "data-testid=\"kpi-total-revenue\"",
+      "data-testid=\"kpi-net-profit\"",
+      "data-testid=\"add-entry-button\"",
+      "data-testid=\"entry-amount-input\"",
+      "data-testid=\"entry-date-picker\"",
+      "data-testid=\"entry-submit-button\"",
+      "data-testid=\"filter-start-date\"",
+      "data-testid=\"filter-end-date\"",
+      "data-testid=\"report-toggle-monthly\"",
+      "data-testid=\"clear-sample-data-button\"",
+      "data-testid=\"confirm-clear-data-input\""
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the 3-decimal currency rule for OMR: e.g. 'OMR 1,234.567'. Use a helper function `formatOMR(amount)` everywhere.",
+    "Losses MUST be prefixed with a minus sign and styled in red: e.g., '-OMR 450.000' with class `text-rose-600 bg-rose-50`.",
+    "Dates must always render in 'DD MMM YYYY' format (e.g., '12 NOV 2026'). Use date-fns or custom formatter.",
+    "Ensure the sidebar cleanly groups the 18 data entry categories into 4 sections: Revenue, COGS, Operating Expenses, Other.",
+    "Include empty states with message 'No data for this period' when date ranges have zero entries.",
+    "Ensure 'start > end' date validation triggers a prominent toast alert or inline error message in Reports.",
+    "All interactive and metric components must include `data-testid` attributes.",
+    "Ensure high contrast and clean presentation suitable for desktop manufacturing finance admins."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "iteration": 2,
+  "mode": "retest",
+  "passed": 14,
+  "failed": 1,
+  "bugs": [
+    {"severity": "medium", "criterion": "JRN-4: Dashboard UI", "title": "Dashboard loss values are not shown in red", "evidence": "Dashboard Net Profit card shows '-OMR 6,926.364', but the text colour is rgb(15,23,42), which is slate-900, not rose-600. In KpiCard.jsx the Money value gets className 'text-slate-900'. tailwind-merge (cn) in Money.jsx keeps that last colour class and drops text-rose-600/text-emerald-600. Only the thin top bar turns rose. Frontend-only: GET /api/dashboard returns correct values, and the UI shows the same numbers. Screenshot: dashboard-cards-and-trend-failure.png. Fix: remove text-slate-900 from the KpiCard Money className, or apply it only when signed is false."}
+  ],
+  "action_items": [
+    {"type": "note", "detail": "settings-clear-sample was run last and has cleared all sample data. Sample count is now 0. Restore the sample data before any further testing."},
+    {"type": "note", "detail": "Backend suite re-run without test_tscheck_zz_clear_sample.py, because that test is destructive: 12 passed. Its result from iteration 1 still stands."},
+    {"type": "cleanup", "detail": "tscheck records were added with dates in 2077, 2078 and 2079 (materials tscheck-resinx-*, tscheck-ghost-*, product tscheck-prod-*, other income tscheck-own-*)."},
+    {"type": "improvement", "detail": "Console warning: a 'key' prop is spread into JSX. This is harmless dev noise."}
+  ],
+  "retest_needed": true,
+  "checks": [
+    {"criterion": "backend suite (auth, dashboard, crud, cogs, profit, reports)", "name": "e1_tests (excluding zz_clear_sample)", "lane": "backend", "status": "passed", "evidence": "12 passed in 1.57s"},
+    {"criterion": "JRN-1,2,3,21 auth UI", "name": "auth-login-and-guard", "lane": "browser", "status": "passed", "evidence": "No signup link on Login. A wrong password shows 'Invalid email or password'. Correct login opens the main content. Logout returns to Login. /signup shows no signup form."},
+    {"criterion": "JRN-4 Dashboard UI", "name": "dashboard-cards-and-trend", "lane": "browser", "status": "failed", "evidence": "All 5 cards show 'OMR x,xxx.xxx' and the trend chart renders. Net Profit '-OMR 6,926.364' is shown in rgb(15,23,42), not red."},
+    {"criterion": "JRN-5,6,7,14 entry forms UI", "name": "category-crud-validation", "lane": "browser", "status": "passed", "evidence": "Field counts match on all 18 pages. Utilities type offers Electricity, Water and Gas. Inline 'Required' and 'Must be greater than 0' block saving. Sale 10 x 12.5 shows a 125.000 row at the top. Editing qty to 4 gives 50.000. Delete removes the row."},
+    {"criterion": "JRN-8..12 COGS rules UI", "name": "cogs-rules-ui", "lane": "browser", "status": "passed", "evidence": "Resin consumption of 100 at a purchase cost of 1.5 shows 150.000. The never-purchased material row shows 'No purchase cost found' with 0.000. Finished goods 40 units costing 100 show cost per unit 2.500."},
+    {"criterion": "JRN-13,22 Reports profit lines", "name": "reports-profit-ui", "lane": "browser", "status": "passed", "evidence": "For May to Oct 2026, the Gross, Operating and Net Profit KPI cards and the Total row match /api/reports/pnl to the baisa, and the formulas hold."},
+    {"criterion": "JRN-15,16,17 Reports table and charts", "name": "reports-table-charts", "lane": "browser", "status": "passed", "evidence": "May to Jul shows 3 rows plus Total, with 7 value columns. The bar and line charts render. No horizontal overflow at 1280px or 1024px. June daily view shows 30 rows plus Total, and mid-month operating expenses are not zero."},
+    {"criterion": "JRN-18,19 empty and invalid ranges", "name": "reports-empty-invalid", "lane": "browser", "status": "passed", "evidence": "Feb 2099 shows 'No data for this period' and OMR 0.000. Start after end shows 'Start date must be before end date'."},
+    {"criterion": "JRN-20 Settings clear sample", "name": "settings-clear-sample", "lane": "browser", "status": "passed", "evidence": "No Reload button. The confirmation dialog appears, and Cancel keeps the data. After confirming, the sample count is 0, the sales list has no sample badge, the own tscheck record remains, and Dashboard revenue is OMR 0.000."}
+  ]
+}
